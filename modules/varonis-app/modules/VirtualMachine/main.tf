@@ -21,7 +21,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   availability_set_id   = azurerm_availability_set.avset.id
   resource_group_name   = var.resource_group_name
   network_interface_ids = [element(var.vnic.*.id, count.index)]
-  size                  = "Standard_DS1_v2"
+  size                  = "Standard_D2s_v3"
 
   os_disk {
     name                 = "${var.prefix}-${var.location}-lvm-osdisk-${count.index}"
