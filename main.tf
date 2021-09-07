@@ -28,6 +28,6 @@ module "varonis-app" {
   resource_group_location = local.region
   virtual_machine_count   = 2
   tags = {
-    "environment" = "prod"
+    "environment" = "dev"
   }
 }

@@ -2,22 +2,22 @@ resource "azurerm_public_ip" "public_ip" {
   name                = "${var.prefix}-${var.location}-public-ip"
   resource_group_name = var.resource_group_name
   location            = var.location
+  domain_name_label   = "${var.prefix}-${var.location}"
   allocation_method   = "Static"
-  domain_name_label = "${var.prefix}-${var.location}"
-  tags = var.tags
+  tags                = var.tags
 }
 
 resource "azurerm_lb" "load_balancer" {
   name                = "${var.prefix}-${var.location}-load-balncer"
   location            = var.location
   resource_group_name = var.resource_group_name
+  tags                = var.tags
 
   frontend_ip_configuration {
     name                 = azurerm_public_ip.public_ip.name
     public_ip_address_id = azurerm_public_ip.public_ip.id
   }
 
-  tags = var.tags
 }
 
 resource "azurerm_lb_backend_address_pool" "load_balancer_backend_address_pool" {
@@ -33,7 +33,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "backend_a
 }
 
 resource "azurerm_lb_probe" "load_balancer_probe" {
-  name                = "probe"
+  name                = "tcp-probe"
   resource_group_name = var.resource_group_name
   loadbalancer_id     = azurerm_lb.load_balancer.id
   protocol            = "tcp"
